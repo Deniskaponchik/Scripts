@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>Change Password</title>
+<!--BEGIN CALLOUT A-->
+<HTA:APPLICATION
+BORDER="thin"
+BORDERSTYLE="sunken"
+CAPTION="yes"
+MAXIMIZEBUTTON="yes"
+MINIMIZEBUTTON="yes"
+SCROLL="no"
+SHOWINTASKBAR="no"
+SYSMENU="yes"
+WINDOWSTATE="normal" />
+<!--END CALLOUT A-->
+<script language=javascript>
+
+var sampleWidth = 300;
+var sampleHeight = 420;
+window.resizeTo(sampleWidth,sampleHeight);
+
+var screenPosX = screen.Width/2 - sampleWidth/2;
+var screenPosY = screen.Height/2 - sampleHeight/2;
+//window.moveTo(screenPosX, screenPosY);
+window.moveTo(800, 300);
+
+</script>
+
+</head>
+
+<!--BEGIN CALLOUT B-->
+<script language="vbscript">
+'Sub showsetting
+'MsgBox "You entered " & T1.value & " in the Text box"
+'MsgBox "You entered " & T2.value & " in the Password box"
+'End Sub
+
+Sub showsetting
+Set WShell = CreateObject("WScript.Shell")
+
+on error resume next
+Dim UserName 
+UserName = T1.value
+Set User = GetObject("WinNT://t2ru/"& UserName &"",user)
+
+
+Dim NewPassword 
+Dim OldPassword
+Dim NewPassword2
+
+NewPassword = T3.value
+OldPassword = T2.value
+NewPassword2 = T4.value
+
+If T1.value = "" Then 
+msgbox "Вы не указали имя пользователя!" 
+end if
+
+If NewPassword<>NewPassword2 Then 
+msgbox "ПАРОЛЬ НЕ БЫЛ СМЕНЕН! Пароли не совпадают! Попробуйте еще раз." 
+end if
+
+if NewPassword=NewPassword2 then 
+Call user.CHANGEPASSWORD (OldPassword, NewPassword)
+
+If err.number = 0 Then 
+msgbox "Succes! Password was changed"
+CALL wshell.run ("cmd /c taskkill /F /IM mshta.exe",0,True)
+end if
+
+If err.number = "-2147024810" Then 
+msgbox "ПАРОЛЬ НЕ БЫЛ СМЕНЕН! Неправильно указан текущий пароль!"
+
+end if
+
+If err.number = "-2147022651" Then 
+msgbox "ПАРОЛЬ НЕ БЫЛ СМЕНЕН! Новый пароль не соответствует политике сложности и повторяемости паролей!"
+
+end if
+end if
+
+End Sub
+
+</script>
+<!--END CALLOUT B-->
+
+<body>
+<!--BEGIN CALLOUT C-->
+<p><font size="3">Login </font></p><input type="text" name="T1" size="20">
+<!--END CALLOUT C-->
+<p><font size="3">OLD password </font></p><input type="password" name="T2" size="20"></p>
+<p><font size="3">NEW password </font></p><input type="password" name="T3" size="20"></p>
+<p><font size="3">NEW password again </font></p><input type="password" name="T4" size="20"></p>
+<!--BEGIN CALLOUT D-->
+<p><input type="button" value="CHANGE" name="B3" onclick=showsetting()>
+<input type="button" value="Cancel" name="B6" onclick=self.close()></p>
+<!--END CALLOUT D-->
+</body>
+</html>
