@@ -1,0 +1,1 @@
+cmd /c netsh interface ipv4 reset

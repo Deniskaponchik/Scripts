@@ -1,0 +1,3 @@
+gpupdate/force
+
+pause

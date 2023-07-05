@@ -1,0 +1,6 @@
+
+hostname | clip
+hostname
+
+
+pause
